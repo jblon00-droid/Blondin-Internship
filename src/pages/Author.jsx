@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setAuthor(null);
+    setIsFollowing(false);
     async function fetchAuthor() {
       try {
         const { data } = await axios.get(
@@ -24,6 +27,21 @@ const Author = () => {
     }
     fetchAuthor();
   }, [authorId]);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timeout = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timeout);
+  }, [copied]);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(author.address);
+      setCopied(true);
+    } catch (error) {
+      console.error("Failed to copy wallet address:", error);
+    }
+  }
 
   return (
     <div id="wrapper">
@@ -66,8 +84,13 @@ const Author = () => {
                             <span id="wallet" className="profile_wallet">
                               {author.address}
                             </span>
-                            <button id="btn_copy" title="Copy Text">
-                              Copy
+                            <button
+                              id="btn_copy"
+                              title="Copy Text"
+                              className={copied ? "clicked" : ""}
+                              onClick={handleCopy}
+                            >
+                              {copied ? "Copied!" : "Copy"}
                             </button>
                           </h4>
                         ) : (
@@ -88,14 +111,20 @@ const Author = () => {
                     <div className="de-flex-col">
                       <div className="profile_follower">
                         {author ? (
-                          `${author.followers} followers`
+                          `${
+                            author.followers + (isFollowing ? 1 : 0)
+                          } followers`
                         ) : (
                           <Skeleton width="150px" height="40px" />
                         )}
                       </div>
-                      <Link to="#" className="btn-main">
-                        Follow
-                      </Link>
+                      <button
+                        className="btn-main"
+                        disabled={!author}
+                        onClick={() => setIsFollowing(!isFollowing)}
+                      >
+                        {isFollowing ? "Unfollow" : "Follow"}
+                      </button>
                     </div>
                   </div>
                 </div>
