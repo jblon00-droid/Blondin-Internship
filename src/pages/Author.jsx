@@ -105,6 +105,7 @@ const Author = () => {
                 <div className="de_tab tab_simple">
                   <AuthorItems
                     items={author?.nftCollection}
+                    authorId={author?.authorId}
                     authorImage={author?.authorImage}
                   />
                 </div>
