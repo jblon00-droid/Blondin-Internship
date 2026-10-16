@@ -25,12 +25,12 @@ const TopSellers = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
-            <div className="text-center">
+            <div className="text-center" data-aos="fade-up">
               <h2>Top Sellers</h2>
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-12" data-aos="fade-up" data-aos-delay="200">
             <ol className="author_list">
               {sellers.length > 0
                 ? sellers.map((seller) => (

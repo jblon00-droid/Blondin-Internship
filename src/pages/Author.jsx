@@ -59,7 +59,12 @@ const Author = () => {
         <section aria-label="section">
           <div className="container">
             <div className="row">
-              <div className="col-md-12">
+              {/* Remounts when the author loads so the animation plays on the real data. */}
+              <div
+                className="col-md-12"
+                key={author ? "profile-loaded" : "profile-loading"}
+                data-aos={author ? "fade-up" : undefined}
+              >
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">

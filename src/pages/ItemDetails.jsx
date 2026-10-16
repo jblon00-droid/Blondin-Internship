@@ -76,7 +76,12 @@ const ItemDetails = () => {
         <section aria-label="section" className="mt90 sm-mt-0">
           <div className="container">
             <div className="row">
-              <div className="col-md-6 text-center">
+              {/* Columns remount when the item loads so the animation plays on the real data. */}
+              <div
+                className="col-md-6 text-center"
+                key={loading ? "image-loading" : "image-loaded"}
+                data-aos={loading ? undefined : "fade-right"}
+              >
                 {loading ? (
                   <Skeleton width="100%" height="500px" borderRadius="8px" />
                 ) : (
@@ -87,7 +92,12 @@ const ItemDetails = () => {
                   />
                 )}
               </div>
-              <div className="col-md-6">
+              <div
+                className="col-md-6"
+                key={loading ? "info-loading" : "info-loaded"}
+                data-aos={loading ? undefined : "fade-up"}
+                data-aos-delay="200"
+              >
                 <div className="item_info">
                   {loading ? (
                     <Skeleton width="300px" height="40px" />
