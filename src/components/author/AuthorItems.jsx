@@ -14,7 +14,11 @@ const AuthorItems = ({ items, authorId, authorImage }) => {
               </div>
             ))}
           {items?.map((item) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.id}>
+            <div
+              className="col-lg-3 col-md-6 col-sm-6 col-xs-12"
+              key={item.id}
+              data-aos="fade-up"
+            >
               <NftCard item={{ ...item, authorId, authorImage }} />
             </div>
           ))}
